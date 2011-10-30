@@ -11,7 +11,7 @@ APACHEUSER='www-data'
 
 USER=${1-`whoami`}
 PROJECTPATH=${2-}
-if [ -n $PROJECTPATH ]; then
+if [ -n "$PROJECTPATH" ]; then
   chown $USER:$USER ${PROJECTPATH}
 fi
 chown -R $USER:$USER ${PROJECTPATH}*

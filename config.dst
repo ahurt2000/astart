@@ -1,0 +1,18 @@
+#!/bin/bash
+
+#Put your config values here
+
+# put_your_user_here
+USER=$(whoami)
+
+# Your projects folder. New projects will be in this folder.
+MYPRJ="/home/$USER/proyectos"
+
+# Super domain for your project. 
+EXT="local"
+
+# Server ip. Keep this for local projects
+SERVERIP="127.0.0.1"
+
+# Symfony 2 version
+SF2VERSION="2.0.4"

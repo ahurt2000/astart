@@ -1,0 +1,21 @@
+#!/bin/bash
+#
+# script to create bhost file from template.site file
+# 
+# author: alejandro hurtado <ahurt2000@gmail.com>
+
+# arg $1 projectname
+# arg $2 EXT super domain i.e: local or loc
+# arg $3 MYPRJ my projects folder
+
+MYPRJ=${3-`pwd`}
+HTTPCONFILE="/etc/apache2/sites-available/$1.site"
+SCRIPTPATH=`dirname "$(readlink -f $0)"`
+
+#creating vhost .site file
+sed "s/{{PROJECTNAME}}/$1/g" "$SCRIPTPATH/template.site" >$HTTPCONFILE
+sed -i "s/{{EXT}}/$2/g" $HTTPCONFILE
+#escaping / \  & from path for sed
+sed -i "s/{{PROJECTPATH}}/$(echo "$MYPRJ" | sed -e 's/\\/\\\\/g' -e 's/\//\\\//g' -e 's/&/\\\&/g')/g" $HTTPCONFILE
+echo "File $HTTPCONFILE created"
+exit 0
