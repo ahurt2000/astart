@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+# test if the host argumente exist in host file
+#  successful exit status if found it 
+#
+# Author: alejandro hurtado <ahurt2000@gmail.com>
+
+
+# get the host list in the file
+HOSTLIST=$(grep -Ev '(^[#$]|::)' /etc/hosts| grep -v "^$" | tr '\t' ' '|cut -d ' ' -f2)
+
+for h in $HOSTLIST; do
+  if [ $h == $1 ]; then
+	exit 0
+  fi
+done
+exit 1

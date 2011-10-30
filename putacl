@@ -1,0 +1,19 @@
+#!/bin/bash
+#
+# USE: sudo ./pathtoscript/putacl your_user path_to_project
+# if path_to_project is not specified is assumed to be called from there
+#
+# Author: alejandro hurtado <ahurt2000@gmail.com>
+#
+
+# user running apache daemon
+APACHEUSER='www-data'
+
+USER=${1-`whoami`}
+PROJECTPATH=${2-}
+if [ -n $PROJECTPATH ]; then
+  chown $USER:$USER ${PROJECTPATH}
+fi
+chown -R $USER:$USER ${PROJECTPATH}*
+setfacl -R -m u:$APACHEUSER:rwx -m u:$USER:rwx  ${PROJECTPATH}app/cache ${PROJECTPATH}app/logs
+setfacl -dR -m u:$APACHEUSER:rwx -m u:$USER:rwx ${PROJECTPATH}app/cache ${PROJECTPATH}app/logs

@@ -1,0 +1,12 @@
+<VirtualHost *:80>
+    DocumentRoot   "{{PROJECTPATH}}/{{PROJECTNAME}}/web"
+    DirectoryIndex app.php
+    ServerName     {{PROJECTNAME}}.local
+
+    <Directory "{{PROJECTPATH}}/{{PROJECTNAME}}/web">
+        AllowOverride All
+        Allow from All
+    </Directory>
+    CustomLog     /var/log/apache2/access.{{PROJECTNAME}}.log combined
+    ErrorLog      /var/log/apache2/error.{{PROJECTNAME}}.log
+</VirtualHost>

@@ -1,0 +1,52 @@
+#!/bin/bash
+#
+# Easy way to create a symfony2 project 
+# USE:  sudo  ./pathtoscript/createpj projectname
+# Author: Alejandro hurtado <ahurt2000@gmail.com>
+#
+
+#Put your config values here
+USER="put_your_user_here"
+MYPRJ="/home/$USER/projects"
+EXT="local"
+SERVERIP="127.0.0.1"
+SF2VERSION="2.0.4"
+### end config ##
+
+SCRIPT=$(readlink -f $0)
+SCRIPTPATH=`dirname "$SCRIPT"`
+
+#In ubuntu 
+HTTPCONFILE="/etc/apache2/sites-available/$1.site"
+
+#creating vhost .site file
+sed "s/{{PROJECTNAME}}/$1/g" "template.site" >$HTTPCONFILE 
+sed -i "s/{{EXT}}/$EXT/g" $HTTPCONFILE
+#escaping / \  & from path for sed
+sed -i "s/{{PROJECTPATH}}/$(echo "$MYPRJ" | sed -e 's/\\/\\\\/g' -e 's/\//\\\//g' -e 's/&/\\\&/g')/g" $HTTPCONFILE 
+echo "File $HTTPCONFILE created"
+
+#hosts file
+if ! $SCRIPTPATH/hostexist $1.$EXT; then
+  echo "*** host $1.$EXT added to the hosts file ***"
+  echo -e "${SERVERIP}\t${1}.$EXT">>"/etc/hosts"
+fi
+
+#download and prepare 
+wget http://symfony.com/download?v=Symfony_Standard_$SF2VERSION.tgz -O temp_sf2.tgz
+tar -C $MYPRJ -xf temp_sf2.tgz 
+rm temp_sf2.tgz
+mv $MYPRJ/Symfony $MYPRJ/$1
+
+#the putacl script asumes tha you have acl enabled 
+cp $SCRIPTPATH/putacl $MYPRJ/$1/
+$SCRIPTPATH/putacl $USER $MYPRJ/$1/
+
+a2ensite $1.site
+echo -e '\E[32;40m'
+echo "Your next steps:"
+echo -e "\033[1mcd  $MYPRJ/$1/; php bin/vendors install\033[0m"
+echo -e "Point your browser to \033[4mhttp://$1.local/web/config\033[0m to start "
+tput sgr0
+echo
+exit 0
