@@ -25,10 +25,10 @@ Edit the createpj script and configure  this vars
 
 ```
 USER:   your user
-MYPRJ:  your projects folders ej /home/$USER/projects
+MYPRJ:  your projects folders i.e: /home/$USER/projects
 EXT:    domain ej: local or loc 
 SERVERIP: apache ip usually 127.0.0.1 for local
-SF2VERSION: Symfony version to install ej: 2.0.4
+SF2VERSION: Symfony version to install i.e: 2.0.4
 ```
 
 *You probably just need to change the user*
