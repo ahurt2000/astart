@@ -28,11 +28,13 @@ mv $MYPRJ/Symfony $MYPRJ/$1
 $SCRIPTPATH/putacl $USER $MYPRJ/$1/
 
 sudo a2ensite $1.site
+sudo /etc/init.d/apache2 reload
 
 echo -e '\E[32;40m'
 echo "Your next steps:"
-echo -e "\033[1mcd  $MYPRJ/$1/; php bin/vendors install\033[0m"
-echo -e "Point your browser to \033[4mhttp://$1.local/web/config\033[0m to start "
+echo -e "\033[1m    cd  $MYPRJ/$1/; php bin/vendors install   \033[0m"
+echo -e "Point your browser to \033[4mhttp://$1.local/config.php\033[0m to start "
+echo 
 tput sgr0
-echo
+echo 
 exit 0
