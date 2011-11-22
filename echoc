@@ -1,0 +1,39 @@
+#!/bin/bash
+# Color echo
+# Autor: Alejandro Hurtado 
+#
+
+shopt -s expand_aliases  #importante sino los alias no se expanden
+alias reset_color='tput sgr0'
+#alias reset_color='echo -ne \E[0m'  #reset infalible en terminales v
+
+#colors
+export black='30'
+export red='31'
+export green='32'
+export yellow='33'
+export blue='34'
+export magenta='35'
+export cyan='36'
+export white='37'
+
+# Color-echo. 
+# use: echoc color "mensaje"  "b/u" color_background
+# i.e: echoc $blue "Mensaje de prueba en azul y bold con fondo blanco" "b" $white
+echoc ()
+{
+	local default_msg=""
+	message=${2:-$default_msg}   # Defaults to default message.
+	color=${1:-$white}           # Defaults to white, if not specified.	
+	bg=${4:-"30"}
+	bg1=$(expr $bg + 10)
+
+	if [[ "$3" == "b" ]]; then
+		bold="1;"
+	fi
+
+	echo  -ne "\E[${bold}${color};${bg1}m $message"; reset_color 
+	return
+}  
+
+export -f echoc

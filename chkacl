@@ -1,0 +1,29 @@
+#!/bin/bash
+# script: check if acl if enabled for some path
+# Author: Alejandro hurtado <ahurt2000@gmail.com>
+#
+
+SCRIPTPATH=`dirname "$(readlink -f $0)"`
+
+#colors in echo
+source $SCRIPTPATH/echoc
+
+# Determine what the mount point for the path is:
+MOUNT_POINT=$(df -P $1 | tail -n 1 | awk '{print $6}')
+
+# Get the mount options for the path:
+MOUNT_OPTS=$(awk '$2=="'$MOUNT_POINT'" { print $4 }' /proc/mounts)
+
+# Check to see if acl is one of the mount points:
+echo $MOUNT_OPTS | tr , \\\n | grep '^acl$' -q
+
+if [ $? -eq 0 ]; then 
+   exit 0
+else 
+  echoc $red "ACL not instaled or disabled" "b";echo  
+  echoc $red "May be you needd install ACL: sudo apt-get install acl"; echo
+  echoc $red "put acl option in /etc/fstab at mountpoint $MOUNT_POINT ";echo
+  echo 
+  echoc $red "sudo /bin/mount -o remount $MOUNT_POINT";echo
+  exit 1
+fi
