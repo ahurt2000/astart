@@ -5,9 +5,8 @@
 MOUNTPOINT=""
 #MOUNTPOINTS=$(cat /etc/fstab |grep -v "^#"|awk '{print $2}')
 for line in `cat /etc/fstab |grep -v "^#"|awk '{print $2}'`; do
-   #echo $1|grep $line)
    if [[ $1 == *$line*  ]];then
-	if [ ${#line} > ${#MOUNTPOINT} ];then
+	if [ "${#line}" -gt "${#MOUNTPOINT}" ];then
 	   MOUNTPOINT=$line
 	fi
    fi
