@@ -1,40 +1,70 @@
 #!/bin/bash
 #
 # Easy way to create a symfony2 project 
-# USE:  sudo  ./pathtoscript/createpj projectname
 # Author: Alejandro hurtado <ahurt2000@gmail.com>
 #
+# USE:  ./pathtoscript/createpj projectname [subdomain] [mysprojectsfolder]
 
 SCRIPTPATH=`dirname "$(readlink -f $0)"`
-source $SCRIPTPATH/config
+
+#colors in echo
+source $SCRIPTPATH/echoc
+
+if [ "$1" == "-h" ]||[ "$1" == "--help" ];then
+   echoc $green "./pathtoscript/createpj PROJECTNAME [subdomine] [mysprojectsfolder]" "b";echo 
+   echo "        PROJECTNAME: The name of the project that you want to create. "
+   echo "        sudomine:    Default value in config file."
+   echo "        mysprojectsfolder: The folder path where you puts your projects. Default value in config file."
+   exit 2
+fi
+
+#read vars from config
+if [ -f $SCRIPTPATH/config ];then
+    source $SCRIPTPATH/config
+else
+    echoc $red "Error: Not config File. Rename the config.dst file try again" "b";echo
+    exit 1
+fi
 
 #create vhost (In ubuntu) 
 sudo $SCRIPTPATH/vhostcreate $1 $EXT $MYPRJ
 
 #hosts file
 if ! $SCRIPTPATH/hostexist $1.$EXT; then
-  echo "*** host $1.$EXT added to the hosts file ***"
+  echoc $green  "*** host $1.$EXT added to the hosts file ***"
   sudo bash  -c "echo -e '${SERVERIP}\t${1}.$EXT'>>/etc/hosts"
 fi
 
 #download and prepare 
-wget http://symfony.com/download?v=Symfony_Standard_$SF2VERSION.tgz -O temp_sf2.tgz
-tar -C $MYPRJ -xf temp_sf2.tgz 
-rm temp_sf2.tgz
-mv $MYPRJ/Symfony $MYPRJ/$1
+wget http://symfony.com/download?v=Symfony_Standard${VENDORS}_${SF2VERSION}.tgz -O temp_sf2.tgz
+
+if [ -f temp_sf2.tgz ];then
+    tar -C $MYPRJ -xf temp_sf2.tgz 
+    rm temp_sf2.tgz
+    mv $MYPRJ/Symfony $MYPRJ/$1
+else
+    echo $red "Error downloading Symfony!" "b";echo
+    exit 1
+fi
+
+
+#check if acl is enabled
+if [ "$WITHACL" == "YES" ];then
+    $SCRIPTPATH/chkacl $MYPRJ || exit $?
+fi
 
 #the putacl script  
-#cp $SCRIPTPATH/putacl $MYPRJ/$1/
 $SCRIPTPATH/putacl $USER $MYPRJ/$1/
 
 sudo a2ensite $1.site
 sudo /etc/init.d/apache2 reload
 
-echo -e '\E[32;40m'
-echo "Your next steps:"
-echo -e "\033[1m    cd  $MYPRJ/$1/; php bin/vendors install   \033[0m"
-echo -e "Point your browser to \033[4mhttp://$1.local/config.php\033[0m to start "
-echo 
-tput sgr0
-echo 
+echoc $green "Your next steps:";echo
+if [ -z "$VENDORS" ];then
+    echoc $green "      cd  $MYPRJ/$1/; php bin/vendors install   ";echo
+fi
+echoc $green "Point your browser to";
+echoc $green "http://$1.local/config.php" "u";echo
+echo
+
 exit 0

@@ -6,7 +6,7 @@
 USER=$(whoami)
 
 # Your projects folder. New projects will be in this folder.
-MYPRJ="/home/$USER/proyectos"
+MYPRJ="/home/$USER/projects"
 
 # Super domain for your project. 
 EXT="local"
@@ -15,4 +15,10 @@ EXT="local"
 SERVERIP="127.0.0.1"
 
 # Symfony 2 version
-SF2VERSION="2.0.4"
+SF2VERSION="2.0.6"
+
+#Symfony 2  with vendors include (leave blank if not)
+VENDORS="_Vendors"
+
+# ACL for Ubuntu
+WITHACL="YES"

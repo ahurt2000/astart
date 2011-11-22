@@ -12,10 +12,13 @@ MYPRJ=${3-`pwd`}
 HTTPCONFILE="/etc/apache2/sites-available/$1.site"
 SCRIPTPATH=`dirname "$(readlink -f $0)"`
 
+#colors
+source $SCRIPTPATH/echoc
+
 #creating vhost .site file
 sed "s/{{PROJECTNAME}}/$1/g" "$SCRIPTPATH/template.site" >$HTTPCONFILE
 sed -i "s/{{EXT}}/$2/g" $HTTPCONFILE
 #escaping / \  & from path for sed
 sed -i "s/{{PROJECTPATH}}/$(echo "$MYPRJ" | sed -e 's/\\/\\\\/g' -e 's/\//\\\//g' -e 's/&/\\\&/g')/g" $HTTPCONFILE
-echo "File $HTTPCONFILE created"
+echoc $green "File $HTTPCONFILE created";echo
 exit 0

@@ -45,6 +45,7 @@ MYPRJ:  your projects folders i.e: /home/$USER/projects
 EXT:    domain ej: local or loc 
 SERVERIP: apache ip usually 127.0.0.1 for local
 SF2VERSION: Symfony version to install i.e: 2.0.4
+WITHACL: option for check or not ACL in ubuntu
 ```
 
 *You probably don't need to change the config*
@@ -71,12 +72,12 @@ PD: You can use others script by separate.
 i.e: ./astart/vhostcreate blog local /home/myuser/myprojectsfolder
 ```
 
-*putacl*
+*putacl*  
 
 from your project folder
 
 ```
-./astart/putacl  or ./astart/putacl myuser myprojectfolder 
+../astart/putacl  or ../astart/putacl myuser myprojectfolder 
 ```
 
 
