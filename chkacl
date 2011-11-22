@@ -9,7 +9,8 @@ SCRIPTPATH=`dirname "$(readlink -f $0)"`
 source $SCRIPTPATH/echoc
 
 # Determine what the mount point for the path is:
-MOUNT_POINT=$(df -P $1 | tail -n 1 | awk '{print $6}')
+#MOUNT_POINT=$(df -P $1 | tail -n 1 | awk '{print $6}')
+MOUNT_POINT=$($SCRIPTPATH/getmountpoint $1)
 
 # Get the mount options for the path:
 MOUNT_OPTS=$(awk '$2=="'$MOUNT_POINT'" { print $4 }' /proc/mounts)
@@ -23,7 +24,6 @@ else
   echoc $red "ACL not instaled or disabled" "b";echo  
   echoc $red "May be you needd install ACL: sudo apt-get install acl"; echo
   echoc $red "put acl option in /etc/fstab at mountpoint $MOUNT_POINT ";echo
-  echo 
   echoc $red "sudo /bin/mount -o remount $MOUNT_POINT";echo
   exit 1
 fi
