@@ -1,7 +1,7 @@
-Sript to create Symfony2 local project
+Script to create Symfony2 local project
 ======================================
 
-This work on **Ubuntu** systems 
+This work on **Ubuntu** systems.
 
 - Automatically create virtual host
 - Fill **hosts** file *if it needed*
@@ -9,7 +9,7 @@ This work on **Ubuntu** systems
 - Download, extract symfony
 - ACL permissions to cache & logs
 
-You need to have ACL installed and enabled. Check your fstab.
+You need to have ACL installed and enabled. Check your fstab. If you have not installed ACL or do you set permissions on your own you can put **"WITHACL = false"** in the config file
 
 The project has this files:
 
@@ -45,10 +45,11 @@ MYPRJ:  your projects folders i.e: /home/$USER/projects
 EXT:    domain ej: local or loc 
 SERVERIP: apache ip usually 127.0.0.1 for local
 SF2VERSION: Symfony version to install i.e: 2.0.4
+VENDORS: Symfony 2 + vendors. Leave it blank if you prefer not vendors (default)
 WITHACL: option for check or not ACL in ubuntu
 ```
 
-*You probably don't need to change the config*
+*You probably don't need to change the default config*
 
 USE 
 ---
@@ -62,7 +63,9 @@ You want to create a new project "blog".
 The script will ask you about yout root pass for 'sudo' operations.
 After that you will have a blog folder with symfony and a vhost called blog.local
 
-PD: You can use others script by separate.
+
+You can use these other scripts separately
+------------------------------------------
 
 *generate vhost files*
 
@@ -77,7 +80,6 @@ i.e: ./astart/vhostcreate blog local /home/myuser/myprojectsfolder
 from your project folder
 
 ```
-../astart/putacl  or ../astart/putacl myuser myprojectfolder 
+sudo ../astart/putacl myuser  or sudo ../astart/putacl myuser myprojectfolder 
 ```
-
 
