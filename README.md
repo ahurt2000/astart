@@ -1,6 +1,9 @@
 Script to create Symfony2 local project
 ======================================
 
+** This project is very old and not usefully for new versions of Symfony2. 
+
+
 This work on **Ubuntu** systems.
 
 - Automatically create virtual host
