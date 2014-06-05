@@ -3,9 +3,9 @@
 # Autor: Alejandro Hurtado 
 #
 
-shopt -s expand_aliases  #importante sino los alias no se expanden
+shopt -s expand_aliases  #important for alias 
 alias reset_color='tput sgr0'
-#alias reset_color='echo -ne \E[0m'  #reset infalible en terminales v
+#alias reset_color='echo -ne \E[0m'  #reset foolproof in v-terminals
 
 #colors
 export black='30'
@@ -18,7 +18,7 @@ export cyan='36'
 export white='37'
 
 # Color-echo. 
-# use: echoc color "mensaje"  "b/u" color_background
+# use: echoc color "message"  "b/u" color_background
 # i.e: echoc $blue "Mensaje de prueba en azul y bold con fondo blanco" "b" $white
 echoc ()
 {
